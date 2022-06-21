@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { data, apiUrl } from "./helpers/fetch";
 
 function App() {
+  const [query, setQuery] = useState("Kielce");
+  const url = apiUrl(query);
+
+  const search = (event) => {
+    if (event.key === "Enter") data(url);
+  };
+
+  useEffect(() => {
+    data(url);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Local weather</h1>
+      <input
+        type="text"
+        onChange={(event) => setQuery(event.target.value)}
+        value={query}
+        onKeyPress={search}
+      />
     </div>
   );
 }
